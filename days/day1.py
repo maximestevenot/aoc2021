@@ -1,22 +1,16 @@
-from itertools import tee
-
 from common.day import Day
-
-
-def pairwise(iterable):
-    a, b = tee(iterable)
-    next(b, None)
-    return zip(a, b)
+from util.iterators import window
 
 
 class Day1(Day):
 
     def part1(self) -> str:
-        counter = 0
-        for (a, b) in pairwise(self.read_input_integers()):
-            if a < b:
-                counter += 1
-        return str(counter)
+        return str(self.count_increased_depth(self.read_input_integers()))
 
     def part2(self) -> str:
-        return "TODO"
+        sum_per_three = list(map(lambda x: sum(x), window(self.read_input_integers(), n=3)))
+        return str(Day1.count_increased_depth(sum_per_three))
+
+    @staticmethod
+    def count_increased_depth(depth_list: list[int]) -> int:
+        return len(list(filter(lambda x: x[0] < x[1], window(depth_list))))
