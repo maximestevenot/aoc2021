@@ -10,6 +10,9 @@ class Day(abc.ABC):
         with open(self.input_file, 'r') as file:
             return [x.strip() for x in file.readlines()]
 
+    def read_input_integers(self) -> list[int]:
+        return list(map(lambda x: int(x), self.read_input_lines()))
+
     @abc.abstractmethod
     def get_answer(self) -> str:
         pass
