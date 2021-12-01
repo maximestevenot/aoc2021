@@ -10,9 +10,13 @@ def pairwise(iterable):
 
 
 class Day1(Day):
-    def get_answer(self) -> str:
+
+    def part1(self) -> str:
         counter = 0
         for (a, b) in pairwise(self.read_input_integers()):
             if a < b:
                 counter += 1
         return str(counter)
+
+    def part2(self) -> str:
+        return "TODO"

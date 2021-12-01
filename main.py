@@ -12,7 +12,9 @@ def cli():
 @click.argument('day_index', nargs=1, type=click.INT)
 def day(day_index):
     try:
-        print(DayFactory.get(day_index).get_answer())
+        day_logic = DayFactory.get(day_index)
+        print(f"Day 1 Part 1: {day_logic.part1()}")
+        print(f"Day 1 Part 2: {day_logic.part2()}")
     except UnimplementedDayException as e:
         raise click.ClickException(str(e))
 
