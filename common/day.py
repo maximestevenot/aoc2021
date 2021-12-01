@@ -14,9 +14,9 @@ class Day(abc.ABC):
         return list(map(lambda x: int(x), self.read_input_lines()))
 
     @abc.abstractmethod
-    def part1(self) -> str:
+    def part1(self) -> int:
         pass
 
     @abc.abstractmethod
-    def part2(self) -> str:
+    def part2(self) -> int:
         pass
