@@ -10,9 +10,10 @@ def cli():
 
 @cli.command('day', short_help='Print AOC 2021 answer')
 @click.argument('day_index', nargs=1, type=click.INT)
-def day(day_index):
+@click.option('--example', is_flag=True)
+def day(day_index, example):
     try:
-        day_logic = DayFactory.get(day_index)
+        day_logic = DayFactory.get(day_index, example)
         print(f"Day 1 Part 1: {day_logic.part1()}")
         print(f"Day 1 Part 2: {day_logic.part2()}")
     except UnimplementedDayException as e:

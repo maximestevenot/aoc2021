@@ -7,16 +7,16 @@ class UnimplementedDayException(Exception):
     pass
 
 
-def default_file_name(index: int) -> str:
-    return f"day_{index}.txt"
+def default_file_name(index: int, example: bool) -> str:
+    return f"day_{index}_example.txt" if example else f"day_{index}.txt"
 
 
 class DayFactory:
     @staticmethod
-    def get(index: int) -> Day:
+    def get(index: int, example: bool) -> Day:
         if index == 1:
-            return Day1(default_file_name(index))
+            return Day1(default_file_name(index, example))
         if index == 2:
-            return Day2(default_file_name(index))
+            return Day2(default_file_name(index, example))
         else:
             raise UnimplementedDayException(f'Day {index} not implemented')
