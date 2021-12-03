@@ -5,16 +5,7 @@ class Day3(Day):
 
     def part1(self) -> int:
         table = self.read_input_lines()
-        result = []
-        for i in range(len(table[0])):
-            one = 0
-            zero = 0
-            for line in table:
-                if line[i] == "0":
-                    zero += 1
-                else:
-                    one += 1
-            result.append((one, zero))
+        result = self.count_bits(table)
         mystr = ""
         for r in result:
             if max(r) == r[0]:
@@ -29,6 +20,20 @@ class Day3(Day):
         epsilon_rate = int("".join(uu), 2)
 
         return gamma_rate * epsilon_rate
+
+    @staticmethod
+    def count_bits(table):
+        result = []
+        for i in range(len(table[0])):
+            one = 0
+            zero = 0
+            for line in table:
+                if line[i] == "0":
+                    zero += 1
+                else:
+                    one += 1
+            result.append((one, zero))
+        return result
 
     def part2(self) -> int:
         return -9999999999
