@@ -1,82 +1,60 @@
+from common.bits import BitsSequence, BitsCount
 from common.day import Day
-
-ZERO = "0"
-
-ONE = "1"
 
 
 class Day3(Day):
 
     def part1(self) -> int:
         table = self.read_input_lines()
-        result = self.count_bits(table)
-        mystr = ""
-        for r in result:
-            if max(r) == r[0]:
-                mystr += "1"
-            else:
-                mystr += "0"
-        gamma_rate = int(mystr, 2)
+        table_bits_count = self.count_table_bits(table)
 
-        uu = []
-        for x in mystr:
-            uu.append(str(abs(int(x) - 1)))
-        epsilon_rate = int("".join(uu), 2)
+        gamma_rate = self.compute_gamma_rate(table_bits_count)
+        epsilon_rate = gamma_rate.opposite()
 
-        return gamma_rate * epsilon_rate
-
-    @staticmethod
-    def count_bits(table):
-        result = []
-        for i in range(len(table[0])):
-            result.append(Day3.count_one_zero_col(table, i))
-        return result
-
-    @staticmethod
-    def count_one_zero_col(table: list[str], col_index: int):
-        one = 0
-        zero = 0
-        for line in table:
-            if line[col_index] == "0":
-                zero += 1
-            else:
-                one += 1
-        return one, zero
-
-    @staticmethod
-    def get_max_bit(r: (int, int)):
-        return ONE if max(r) == r[0] else ZERO
-
-    @staticmethod
-    def get_min_bit(r: (int, int)):
-        return ZERO if max(r) == r[0] else ONE
-
+        return int(gamma_rate) * int(epsilon_rate)
 
     def part2(self) -> int:
         table = self.read_input_lines()
-        # result = self.count_bits(table)
-        new_table = self.filter_data_oxygen(0, table, len(table[0]))
 
-        oxygen = int("".join(new_table), 2)
+        oxygen_data = self.filter_table(Day3.filter_oxygen_data, 0, len(table[0]), table)
+        co2_data = self.filter_table(Day3.filter_co2_data, 0, len(table[0]), table)
 
-        table2 = self.filter_data_co2(0, table, len(table[0]))
-        co2 = int("".join(table2), 2)
+        oxygen_scrubber_rating = BitsSequence(oxygen_data[0])
+        co2_scrubber_rating = BitsSequence(co2_data[0])
 
-        return co2 * oxygen
+        return int(co2_scrubber_rating) * int(oxygen_scrubber_rating)
 
-    def filter_data_oxygen(self, i, table, stop):
-        if i < stop and len(table) > 1:
-            r = self.count_one_zero_col(table, i)
-            new_table = list(filter(lambda x: x[i] == self.get_max_bit(r), table))
-            return self.filter_data_oxygen(i+1, new_table[0:max(r)], stop)
-        return table
+    @staticmethod
+    def compute_gamma_rate(table_bits_count) -> BitsSequence:
+        gamma_rate = BitsSequence()
+        for col in table_bits_count:
+            gamma_rate.append(col.max_bit())
+        return gamma_rate
 
-    def filter_data_co2(self, i, table, stop):
-        print(i)
-        if i < stop and len(table) > 1:
-            r = self.count_one_zero_col(table, i)
-            print(r)
-            new_table = list(filter(lambda x: x[i] == self.get_min_bit(r), table))
-            print(new_table)
-            return self.filter_data_co2(i+1, new_table[0:min(r)], stop)
+    @staticmethod
+    def count_table_bits(table: list[str]) -> list[BitsCount]:
+        result = []
+        for i in range(len(table[0])):
+            result.append(Day3.count_column_bits(table, i))
+        return result
+
+    @staticmethod
+    def count_column_bits(table: list[str], col_index: int) -> BitsCount:
+        counter = BitsCount()
+        for line in table:
+            counter.increment(line[col_index])
+        return counter
+
+    @staticmethod
+    def filter_oxygen_data(column_index: int, bits_count, table: list[str]) -> list[str]:
+        return list(filter(lambda x: x[column_index] == bits_count.max_bit(), table))[0:bits_count.max()]
+
+    @staticmethod
+    def filter_co2_data(column_index: int, bits_count, table: list[str]) -> list[str]:
+        return list(filter(lambda x: x[column_index] == bits_count.min_bit(), table))[0:bits_count.min()]
+
+    def filter_table(self, list_filter, column_index: int, last_column_index: int, table: list[str]) -> list[str]:
+        if column_index < last_column_index and len(table) > 1:
+            filtered_table = list_filter(column_index, self.count_column_bits(table, column_index), table)
+            return self.filter_table(list_filter, column_index + 1, last_column_index, filtered_table)
         return table
