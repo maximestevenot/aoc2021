@@ -2,6 +2,7 @@ from common.day import Day
 from days.day1 import Day1
 from days.day2 import Day2
 from days.day3 import Day3
+from days.day4 import Day4
 
 
 class UnimplementedDayException(Exception):
@@ -21,5 +22,7 @@ class DayFactory:
             return Day2(default_file_name(index, example))
         if index == 3:
             return Day3(default_file_name(index, example))
+        if index == 4:
+            return Day4(default_file_name(index, example))
         else:
             raise UnimplementedDayException(f'Day {index} not implemented')
