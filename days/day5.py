@@ -47,20 +47,13 @@ class Day5(Day):
     def part1(self) -> int:
         lines = self.get_lines()
         play_board = self.init_play_board(lines)
-
-        self.fill_play_board_part1(lines, play_board)
-
+        self.fill_play_board(lines, play_board)
         return self.count_overlap(play_board)
 
     def part2(self) -> int:
         lines = self.get_lines()
         play_board = self.init_play_board(lines)
-
-        self.fill_play_board_part2(lines, play_board)
-
-        # for p in play_board:
-        #     self.logger.debug(" ".join([str(x) if x != 0 else '.' for x in p]))
-
+        self.fill_play_board(lines, play_board, True)
         return self.count_overlap(play_board)
 
     @staticmethod
@@ -88,7 +81,9 @@ class Day5(Day):
             lines.append(line)
         return lines
 
-    def fill_play_board_part1(self, lines: list[Line], play_board: list[list[int]]) -> None:
+    def fill_play_board(self, lines: list[Line],
+                        play_board: list[list[int]],
+                        manage_diagonals: bool = False) -> None:
         for line in lines:
             if line.is_vertical():
                 self.logger.debug(f'vertical: {line}')
@@ -98,44 +93,13 @@ class Day5(Day):
                 self.logger.debug(f'horizontal: {line}')
                 for x in range(line.min_x(), line.max_x() + 1):
                     play_board[line.start_coord.y][x] += 1
-            else:
-                self.logger.debug(f'excluded: {line}')
-
-    def fill_play_board_part2(self, lines: list[Line], play_board: list[list[int]]) -> None:
-        for line in lines:
-            pb2 = self.init_play_board(lines)
-            if line.is_vertical():
-                self.logger.debug(f'vertical: {line}')
-                for y in range(line.min_y(), line.max_y() + 1):
-                    play_board[y][line.start_coord.x] += 1
-            elif line.is_horizontal():
-                self.logger.debug(f'horizontal: {line}')
-                for x in range(line.min_x(), line.max_x() + 1):
-                    play_board[line.start_coord.y][x] += 1
-            else :
-                self.logger.debug("-----------------")
-                self.logger.debug(line)
-                self.logger.debug(line.is_diagonal())
-                self.logger.debug(f'diagonal ???: {line}')
+            elif manage_diagonals:
+                self.logger.debug(f'diagonal: {line}')
                 diagonal_points = self.get_diagonal_points(line.start_coord, line.end_coord)
                 for point in diagonal_points:
                     play_board[point.x][point.y] += 1
-                    pb2[point.x][point.y] += 1
-                i = 0
-                s = " "
-                for j in range(len(pb2)):
-                    s += f" {j}"
-                self.logger.debug(s)
-                for p in pb2:
-                    self.logger.debug(i, " ".join([str(x) if x != 0 else '.' for x in p]))
-                    i += 1
-            # else:
-            #     self.logger.debug("-----------------")
-            #     self.logger.debug(line)
-            #     self.logger.debug(line.is_diagonal())
-
-        # else:
-        #     self.logger.debug(f'excluded: {line}')
+            else:
+                self.logger.debug(f'excluded: {line}')
 
     def get_diagonal_points(self, start_coord: Coordinates, end_coord: Coordinates):
         start_x = start_coord.x
@@ -148,12 +112,9 @@ class Day5(Day):
         coords = []
 
         slope = (end_y - start_y) // (end_x - start_x)
-        self.logger.debug(slope)
-        if slope in [-1, 1]:
-            for x, y in zip(range(start_x, end_x), range(start_y, end_y, slope)):
-                coords.append(Coordinates(y, x))
+        for x, y in zip(range(start_x, end_x), range(start_y, end_y, slope)):
+            coords.append(Coordinates(y, x))
+        coords.append(Coordinates(end_y, end_x))
 
-            coords.append(Coordinates(end_y, end_x))
-        self.logger.debug(coords)
         self.logger.debug(coords)
         return coords
