@@ -24,11 +24,6 @@ class Line:
     def is_vertical(self) -> bool:
         return self.start_coord.x == self.end_coord.x
 
-    def is_diagonal(self) -> bool:
-        # return (self.start_coord.x == self.start_coord.y and self.end_coord.x == self.end_coord.y) or \
-        #        (self.start_coord.x == self.end_coord.y and self.start_coord.y == self.end_coord.x)
-        return self.start_coord.norm() == self.end_coord.norm()
-
     def max_x(self) -> int:
         return max(self.end_coord.x, self.start_coord.x)
 
@@ -67,7 +62,6 @@ class Day5(Day):
         x_max = max(l.max_x() for l in lines)
         y_max = max(l.max_y() for l in lines)
         self.logger.debug(f"x_max={x_max}, y_max={y_max}")
-        # return [[0] * (x_max + 1)] * (y_max + 1)
         return [[0 for i in range(x_max + 1)] for j in range(y_max + 1)]
 
     def get_lines(self) -> list[Line]:
