@@ -13,3 +13,15 @@ $ python -m main day X
 1. Implement class `DayX` in _days/dayX.py_
 2. Add input file in _inputs_ folder
 3. Add `DayX` in the `DayFactory`
+
+
+1.1....11.
+.111...2..
+..2.1.111.
+...1.2.2..
+.112313211
+...1.2....
+..1...1...
+.1.....1..
+1.......1.
+222111....
