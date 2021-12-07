@@ -25,9 +25,9 @@ def day(day_index, example, debug):
         raise click.ClickException(str(e))
 
     logger.debug("Compute Part 1")
-    click.echo(f"Day 1 Part 1: {click.style(day_logic.part1(), fg='blue', bold=True)}")
+    click.echo(f"Day {day_index} Part 1: {click.style(day_logic.part1(), fg='blue', bold=True)}")
     logger.debug("Compute Part 2")
-    click.echo(f"Day 1 Part 2: {click.style(day_logic.part2(), fg='blue', bold=True)}")
+    click.echo(f"Day {day_index} Part 2: {click.style(day_logic.part2(), fg='blue', bold=True)}")
 
 
 if __name__ == '__main__':

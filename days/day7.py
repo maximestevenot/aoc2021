@@ -18,7 +18,7 @@ class Day7(Day):
         return self.compute_min_fuel(compute_fuel_consumption_part_2)
 
     def compute_min_fuel(self, compute_fuel_consumption) -> int:
-        positions = [int(x) for x in self.read_input_lines()[0].split(',')]
+        positions = self.read_input_integers_one_line()
         self.logger.debug(positions)
 
         target_positions = list(range(min(positions), max(positions)))
