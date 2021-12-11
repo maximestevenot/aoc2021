@@ -2,15 +2,7 @@ import re
 from dataclasses import dataclass
 
 from common.day import Day
-
-
-@dataclass
-class Coordinates:
-    x: int
-    y: int
-
-    def norm(self) -> int:
-        return abs(self.x - self.y)
+from common.geometry import Coordinates
 
 
 @dataclass
