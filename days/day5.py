@@ -2,7 +2,7 @@ import re
 from dataclasses import dataclass
 
 from common.day import Day
-from common.geometry import Coordinates
+from common.algebra import Coordinates
 
 
 @dataclass

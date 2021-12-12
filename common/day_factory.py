@@ -1,6 +1,7 @@
 from common.day import Day
 from days.day1 import Day1
 from days.day10 import Day10
+from days.day11 import Day11
 from days.day2 import Day2
 from days.day3 import Day3
 from days.day4 import Day4
@@ -40,5 +41,7 @@ class DayFactory:
             return Day9(file_name)
         if index == 10:
             return Day10(file_name)
+        if index == 11:
+            return Day11(file_name)
         else:
             raise UnimplementedDayException(f'Day {index} not implemented')
