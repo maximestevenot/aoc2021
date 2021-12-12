@@ -7,6 +7,7 @@ from days.day4 import Day4
 from days.day5 import Day5
 from days.day6 import Day6
 from days.day7 import Day7
+from days.day8 import Day8
 from days.day9 import Day9
 
 
@@ -33,6 +34,8 @@ class DayFactory:
             return Day6(file_name)
         if index == 7:
             return Day7(file_name)
+        if index == 8:
+            return Day8(file_name)
         if index == 9:
             return Day9(file_name)
         if index == 10:
